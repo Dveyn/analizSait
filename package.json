@@ -4,7 +4,13 @@
   "workspaces": [
     "packages/*"
   ],
-  "dependencies": {},
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "dev": "concurrently \"cd packages/server && yarn start\" \"cd packages/client && yarn start\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.1"
+  },
   "devDependencies": {
     "lerna": "^7.1.5"
   }
