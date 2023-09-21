@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import { predict, trainModel } from './model/trainModel'; // Импортируем функцию для обучения модели
+import { decodePredictions, predict, trainModel } from './model/trainModel'; // Импортируем функцию для обучения модели
 import { async } from 'q';
 
 const app = express();
@@ -31,10 +31,13 @@ app.post('/predict', async (req: Request, res: Response) => {
 
   const inputData = req.body.data; // Данные для обучения (тексты статей)
 
-  return await predict(inputData);
+  const resuls = await predict(inputData);
+  const decodedPredictions = await decodePredictions(resuls);
+  res.send(decodedPredictions);
 });
 
 //Ручка для получения значения обучаемости
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
 });
+ 

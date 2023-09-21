@@ -10,13 +10,21 @@ const instance = axios.create({
 })
 
 const link = {
-    trainAi: 'train'
+    trainAi: 'train',
+    predict: 'predict'
 }
 
 export const appAPI = {
   train(data:string[], labels:string[]) {
     return instance
       .post(link.trainAi, {data, labels})
+      .then((response) => {
+        return response
+      })
+  },
+  predict(data:string[]) {
+    return instance
+      .post(link.predict, {data})
       .then((response) => {
         return response
       })
