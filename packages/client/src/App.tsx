@@ -1,11 +1,13 @@
 import React from 'react';
 import AppRoutes from './components/routing/routing';
+import { Theme, presetGpnDark  } from '@consta/uikit/Theme';
+import "./app.css";
 
 function App() {
   return (
-    <div className="App">
+  <Theme  className="App" preset={presetGpnDark}>
       <AppRoutes />
-    </div>
+  </Theme>
   );
 }
 

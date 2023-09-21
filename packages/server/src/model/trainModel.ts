@@ -1,20 +1,17 @@
 import * as tf from '@tensorflow/tfjs';
 
-const VOCABULARY_SIZE = 10000; // Размер словаря (количество уникальных слов)
-const EMBEDDING_DIM = 16; // Размерность векторов слов
-const MAX_SEQUENCE_LENGTH = 250; // Максимальная длина последовательности слов
-const LSTM_UNITS = 32; // Количество нейронов в LSTM слое
-const NUM_CLASSES = 3; // Количество классов (ваша задача классификации)
-const NUM_EPOCHS = 10; // Добавляем переменную для количества эпох обучения
+const VOCABULARY_SIZE = 10000;
+const EMBEDDING_DIM = 16;
+const LSTM_UNITS = 32;
+const NUM_EPOCHS = 10;
 
-// Функция создания модели
-function createModel() {
+function createModel(maxSentenceLength: number, numClasses: number): tf.Sequential {
   const model = tf.sequential();
 
   model.add(tf.layers.embedding({
     inputDim: VOCABULARY_SIZE,
     outputDim: EMBEDDING_DIM,
-    inputLength: MAX_SEQUENCE_LENGTH,
+    inputLength: maxSentenceLength,
   }));
 
   model.add(tf.layers.lstm({
@@ -23,7 +20,7 @@ function createModel() {
   }));
 
   model.add(tf.layers.dense({
-    units: NUM_CLASSES,
+    units: numClasses,
     activation: 'softmax'
   }));
 
@@ -36,17 +33,19 @@ function createModel() {
   return model;
 }
 
-// Функция обучения модели
-export function trainModel(inputData: string[], inputLabels: number[]) {
-  const trainData = tf.tensor2d(inputData);
-  const trainLabels = tf.tensor1d(inputLabels, 'int32');
+export function trainModel(inputData: string[], inputLabels: number[], numClasses: number): void {
+  console.log(inputData);
+  const maxSentenceLength = Math.max(...inputData.map(sentence => sentence.split(' ').length));
+  const model = createModel(maxSentenceLength, numClasses);
+ 
+  const trainData = tf.tensor2d(inputData.map(sentence => sentence.split(' ').map(word => parseFloat(word))));
 
-  const model = createModel(); // Создаем модель
+  const trainLabels = tf.tensor1d(inputLabels);
 
   model.fit(trainData, trainLabels, {
     epochs: NUM_EPOCHS,
     callbacks: {
-      onEpochEnd: (epoch, logs) => {
+      onEpochEnd: async (epoch, logs) => {
         console.log(`Epoch ${epoch + 1} - loss: ${logs?.loss}, accuracy: ${logs?.acc}`);
       }
     }
@@ -54,4 +53,3 @@ export function trainModel(inputData: string[], inputLabels: number[]) {
     console.log('Обучение завершено:', info);
   });
 }
-
