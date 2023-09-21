@@ -1,57 +1,91 @@
 import * as tf from '@tensorflow/tfjs';
+import { async } from 'q';
 
-const VOCABULARY_SIZE = 10000; // Размер словаря (количество уникальных слов)
-const EMBEDDING_DIM = 16; // Размерность векторов слов
-const MAX_SEQUENCE_LENGTH = 250; // Максимальная длина последовательности слов
-const LSTM_UNITS = 32; // Количество нейронов в LSTM слое
-const NUM_CLASSES = 3; // Количество классов (ваша задача классификации)
-const NUM_EPOCHS = 10; // Добавляем переменную для количества эпох обучения
+const VOCABULARY_SIZE = 10000;
+const EMBEDDING_DIM = 16;
+const LSTM_UNITS = 32;
+const NUM_EPOCHS = 10;
 
-// Функция создания модели
-function createModel() {
+function createModel(maxSentenceLength: number, numClasses: number): tf.Sequential {
   const model = tf.sequential();
 
   model.add(tf.layers.embedding({
     inputDim: VOCABULARY_SIZE,
     outputDim: EMBEDDING_DIM,
-    inputLength: MAX_SEQUENCE_LENGTH,
+    inputLength: maxSentenceLength,
   }));
 
   model.add(tf.layers.lstm({
     units: LSTM_UNITS,
-    returnSequences: false
+    returnSequences: false,
+    kernelInitializer: 'glorotNormal', // Пример альтернативной инициализации
+    recurrentInitializer: 'glorotNormal' // Пример альтернативной инициализации
   }));
 
   model.add(tf.layers.dense({
-    units: NUM_CLASSES,
+    units: numClasses,
     activation: 'softmax'
   }));
 
   model.compile({
     optimizer: 'adam',
-    loss: 'sparseCategoricalCrossentropy',
+    loss: 'sparseCategoricalCrossentropy', // Вместо 'sparseCategoricalCrossentropy'
     metrics: ['accuracy']
   });
 
   return model;
 }
 
-// Функция обучения модели
-export function trainModel(inputData: string[], inputLabels: number[]) {
-  const trainData = tf.tensor2d(inputData);
-  const trainLabels = tf.tensor1d(inputLabels, 'int32');
+export async function trainModel(inputData: string[], inputLabels: string[],) {
+  console.log(inputData);
+  const maxLength = Math.max(...inputData.map(str => str.length));
+  const model = createModel(maxLength, inputData.length);
 
-  const model = createModel(); // Создаем модель
 
-  model.fit(trainData, trainLabels, {
+  const textAsNumber = inputData.map((sentence, index) => {
+
+    if (sentence.length < maxLength) {
+      const countRepiat = (maxLength - sentence.length) - 1;
+      const padding = '0'.repeat(countRepiat);
+      sentence = sentence + " " + ((countRepiat > 1) ? padding : "");
+    }
+    return sentence.split('').map(char => char.charCodeAt(0));
+  });
+  const trainData = tf.tensor2d(textAsNumber, [textAsNumber.length, maxLength]);
+
+  const uniqueLabels = Array.from(new Set(inputLabels));
+  const labelMap = new Map(uniqueLabels.map((label, index) => [label, index]));
+
+  const numericLabels = inputLabels.map(label => label !== undefined ? labelMap.get(label) : undefined);
+  const validNumericLabels = numericLabels.filter(label => label !== undefined) as number[];
+  const trainLabels = tf.tensor1d(validNumericLabels);
+
+  const history = await model.fit(trainData, trainLabels, {
     epochs: NUM_EPOCHS,
     callbacks: {
-      onEpochEnd: (epoch, logs) => {
+      onEpochEnd: async (epoch, logs) => {
         console.log(`Epoch ${epoch + 1} - loss: ${logs?.loss}, accuracy: ${logs?.acc}`);
       }
     }
-  }).then(info => {
-    console.log('Обучение завершено:', info);
   });
+
+  return history;
 }
 
+
+export async function predict(inputData: string[]) {
+  const maxLength = Math.max(...inputData.map(str => str.length));
+  const model = createModel(maxLength, inputData.length);
+
+  const textAsNumber = inputData.map((sentence, index) => {
+    if(sentence.length < maxLength){
+      const countRepiat = (maxLength- sentence.length)-1;
+      const padding = '0'.repeat(countRepiat);
+      sentence = sentence + " " + ((countRepiat > 1) ? padding : "");
+    }
+    return  sentence.split('').map(char => char.charCodeAt(0));
+  });
+
+  const testData = tf.tensor2d(textAsNumber, [textAsNumber.length, maxLength]);
+  return model.predict(testData);
+}
