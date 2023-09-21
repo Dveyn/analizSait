@@ -36,10 +36,11 @@ function createModel(maxSentenceLength: number, numClasses: number): tf.Sequenti
   return model;
 }
 
-export async function trainModel(model: tf.LayersModel, inputData: string[], inputLabels: string[],) {
+export async function trainModel(inputData: string[], inputLabels: string[],) {
   console.log(inputData);
   const maxLength = Math.max(...inputData.map(str => str.length));
-  // const model = createModel(maxLength, inputData.length);
+  const model = createModel(maxLength, inputData.length);
+
 
   const textAsNumber = inputData.map((sentence, index) => {
 
