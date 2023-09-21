@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import { trainModel } from './trainModel'; // Импортируем функцию для обучения модели
+import { trainModel } from './model/trainModel'; // Импортируем функцию для обучения модели
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -16,6 +16,9 @@ app.post('/train', (req: Request, res: Response) => {
 
   res.send('Обучение начато');
 });
+
+//Ручка для получения значения обучаемости
+
 
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
