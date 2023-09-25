@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from "axios";
 
-const isTested = (window.location.hostname === "localhost");
 
 const instance = axios.create({
   baseURL: 'http://localhost:3001/',

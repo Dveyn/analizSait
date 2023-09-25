@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import { decodePredictions, predict, trainModel } from './model/trainModel'; // Импортируем функцию для обучения модели
-import { async } from 'q';
+import { trainModel } from './model/trainModel'; // Импортируем функцию для обучения модели 
+import { decodePredictions, predict } from './model/predict';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -32,6 +32,7 @@ app.post('/predict', async (req: Request, res: Response) => {
   const inputData = req.body.data; // Данные для обучения (тексты статей)
 
   const resuls = await predict(inputData);
+  if(!resuls) return res.send("Не удалось прогнозировать данные");
   const decodedPredictions = await decodePredictions(resuls);
   res.send(decodedPredictions);
 });
