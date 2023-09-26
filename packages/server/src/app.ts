@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import { trainModel } from './model/trainModel'; // Импортируем функцию для обучения модели 
 import { decodePredictions, predict } from './model/predict';
+import { signup } from './users/auth';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -37,8 +38,17 @@ app.post('/predict', async (req: Request, res: Response) => {
   res.send(decodedPredictions);
 });
 
-//Ручка для получения значения обучаемости
-app.listen(PORT, () => {
-  console.log(`Сервер запущен на порту ${PORT}`);
+//Ручка авторизации 
+
+app.post('/login', async (req: Request, res: Response) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const result = await signup(email, password);
+  res.send(result);
 });
- 
+
+  app.listen(PORT, () => {
+    console.log(`Сервер запущен на порту ${PORT}`);
+  });
+   

@@ -1,18 +1,16 @@
 import * as tf from '@tensorflow/tfjs';
-import fs from 'fs';
+import pool from '../utils/db';
 
 export async function saveModel(model: tf.LayersModel) {
-  const directory = 'modelsJson';
-
-  if (!fs.existsSync(directory)) {
-     fs.mkdirSync(directory);
-  }
+  const currentDate = new Date().toISOString().split('T')[0];
 
   const modelJSON = model.toJSON();
-  // await model.save(`file://modelsJson`);
-  await model.save('file://my_model.json')
-  console.log(`Модель сохранена в .... a не знаю где`);
+  try {
+    await pool.query('INSERT INTO models(date, json) VALUES($1, $2)', [currentDate, JSON.stringify(modelJSON)]);
+    console.log(`Модель сохранена в PostgreSQL с датой сохранения ${currentDate}`);
+  } catch (error) {
+    console.error('Ошибка при сохранении модели в PostgreSQL:', error);
+  }
 }
-
 
 
