@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import { trainModel } from './model/trainModel'; // Импортируем функцию для обучения модели 
 import { decodePredictions, predict } from './model/predict';
-import { signup } from './users/auth';
+import { signin } from './users/auth';
+import { signup } from './users/registretion';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -11,9 +12,9 @@ app.use(bodyParser.json());
 
 // Разрешаем CORS
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); 
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); 
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); 
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 
@@ -33,22 +34,34 @@ app.post('/predict', async (req: Request, res: Response) => {
   const inputData = req.body.data; // Данные для обучения (тексты статей)
 
   const resuls = await predict(inputData);
-  if(!resuls) return res.send("Не удалось прогнозировать данные");
+  if (!resuls) return res.send("Не удалось прогнозировать данные");
   const decodedPredictions = await decodePredictions(resuls);
   res.send(decodedPredictions);
 });
 
 //Ручка авторизации 
 
-app.post('/login', async (req: Request, res: Response) => {
+app.post('/signin', async (req: Request, res: Response) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  const result = await signup(email, password);
+  const result = await signin(email, password);
   res.send(result);
 });
 
-  app.listen(PORT, () => {
-    console.log(`Сервер запущен на порту ${PORT}`);
-  });
-   
+//Ручка регистрации
+app.post('/signup', async (req: Request, res: Response) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const username = req.body.name;
+  console.log(req.body);
+  
+console.log("APP ===========> ",email, password, username);
+
+  const result = await signup(email, password, username);
+  res.send(result);
+});
+
+app.listen(PORT, () => {
+  console.log(`Сервер запущен на порту ${PORT}`);
+});

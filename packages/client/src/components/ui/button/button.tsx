@@ -7,11 +7,12 @@ interface StyledButtonProps {
   label: string;
   onClick: () => void;
   style?: React.CSSProperties;
+  customClass?: string;
 }
 
-export const Button = ({ label, onClick, style }:StyledButtonProps) => {
+export const Button = ({ label, onClick, style, customClass }:StyledButtonProps) => {
   return (
-    <button style={style} className={styles.button} onClick={onClick}>
+    <button style={style} className={`${styles.button} ${customClass}`} onClick={onClick}>
       {label}
     </button>
   );

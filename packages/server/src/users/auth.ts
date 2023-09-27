@@ -1,18 +1,30 @@
 import pool from '../utils/db';
 import { generateToken } from '../utils/generateToken';
+import bcrypt from 'bcryptjs';
 
-export const signup = async (email: string, password:string) => {
+export const signin = async (email: string, password:string) => {
   
   try {
-    const user = await pool.query('SELECT * FROM users WHERE email = $1 AND password = $2', [email, password]);
-
+    const passwordHash = bcrypt.hashSync(password, 8);
+    console.log(passwordHash);
+    
+    const user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (user.rows.length === 0) {
-      return { message: 'Неверные учетные данные' };
+      return { isError: true, message: 'Пользователь не найден' };
+    }
+    const passwordBD = user.rows[0].password;
+    console.log(passwordHash, passwordBD);
+    const passwordMatch = bcrypt.compareSync(password, passwordBD);
+    console.log(passwordMatch);
+    if (!passwordMatch) {
+      return { isError: true, message: 'Неверный пароль' };
     }
 
+
     // Генерация токена и отправка на клиент
-    const token = generateToken(user.rows[0].id);
-    return{ token }
+    const token = generateToken(user.rows[0].id + 15);
+    const token2= generateToken(user.rows[0].id + 15);
+    return{ token, token2 }
   } catch (error) {
     console.error('Ошибка при авторизации', error);
     return { message: 'Ошибка сервера' };

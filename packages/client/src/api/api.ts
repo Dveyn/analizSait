@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { signinType, signupType } from "./types/user";
 
 
 const instance = axios.create({
@@ -10,7 +11,9 @@ const instance = axios.create({
 
 const link = {
     trainAi: 'train',
-    predict: 'predict'
+    predict: 'predict',
+    signin: 'signin',
+    signup: 'signup'
 }
 
 export const appAPI = {
@@ -28,4 +31,18 @@ export const appAPI = {
         return response
       })
   },
+  signin(data: signinType) {
+    return instance
+      .post(link.signin, data)
+      .then((response) => {
+        return response
+      })
+  },
+  signup(data: signupType) {
+    return instance
+      .post(link.signup, data)
+      .then((response) => {
+        return response
+      })
+  }
 }

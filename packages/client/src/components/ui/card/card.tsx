@@ -7,10 +7,10 @@ interface StyledCardProps {
   customClass?: string;
 }
 
-export const Card = ({style, customClass,children}:StyledCardProps ) => {
+export const Card = ({ style, customClass, children }: StyledCardProps) => {
   return (
     <div className={`${styles.card} ${customClass}`} style={style}>
-      <div className={styles.content}>{children}</div>
+      {children}
     </div>
   );
 }
