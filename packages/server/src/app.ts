@@ -10,26 +10,39 @@ const PORT = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
 
-// Разрешаем CORS
+// Разрешаем CORS, пока что со всех адресов и проверяем токены авторизации
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
   next();
 });
 
 // Ручка для принятия данных и запуска обучения модели
 app.post('/train', async (req: Request, res: Response) => {
 
+  const token = req.headers['token'];
+  const token2 = req.headers['token2'];
+
+  if (!token || !token2) {
+    return res.status(401).json({ isError: true, error: 'Unauthorized' });
+  }
+
   const inputData = req.body.data; // Данные для обучения (тексты статей)
   const inputLabels = req.body.labels; // Метки классов
-
-
   const history = await trainModel(inputData, inputLabels);
   res.send(history);
 });
 
 app.post('/predict', async (req: Request, res: Response) => {
+
+  const token = req.headers['token'];
+  const token2 = req.headers['token2'];
+
+  if (!token || !token2) {
+    return res.status(401).json({ isError: true, error: 'Unauthorized' });
+  }
 
   const inputData = req.body.data; // Данные для обучения (тексты статей)
 
