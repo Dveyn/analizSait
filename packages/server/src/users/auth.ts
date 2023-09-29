@@ -24,7 +24,11 @@ export const signin = async (email: string, password:string) => {
     // Генерация токена и отправка на клиент
     const token = generateToken(user.rows[0].id + 15);
     const token2= generateToken(user.rows[0].id + 15);
-    return{ token, token2 }
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    const setToken = await pool.query('INSERT INTO user_token (user_id, date_active, token, token2) VALUES ($1, $2, $3, $4)', [user.rows[0].id, token, token2, currentDate]);
+
+    return { isError: false, token, token2 };
   } catch (error) {
     console.error('Ошибка при авторизации', error);
     return { message: 'Ошибка сервера' };
