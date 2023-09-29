@@ -6,27 +6,29 @@ const instance = axios.create({
   baseURL: 'http://localhost:3001/',
   headers: {
     "Content-Type": "application/json",
-  } 
+  },
+  withCredentials: true
 })
 
 const link = {
-    trainAi: 'train',
-    predict: 'predict',
-    signin: 'signin',
-    signup: 'signup'
+  trainAi: 'api/train',
+  predict: 'api/predict',
+  signin: 'api/signin',
+  signup: 'api/signup',
+  getAuth: 'api/get',
 }
 
 export const appAPI = {
-  train(data:string[], labels:string[]) {
+  train(data: string[], labels: string[]) {
     return instance
-      .post(link.trainAi, {data, labels})
+      .post(link.trainAi, { data, labels })
       .then((response) => {
         return response
       })
   },
-  predict(data:string[]) {
+  predict(data: string[]) {
     return instance
-      .post(link.predict, {data})
+      .post(link.predict, { data })
       .then((response) => {
         return response
       })
@@ -41,6 +43,13 @@ export const appAPI = {
   signup(data: signupType) {
     return instance
       .post(link.signup, data)
+      .then((response) => {
+        return response
+      })
+  },
+  getAuth() {
+    return instance
+      .get(link.getAuth)
       .then((response) => {
         return response
       })

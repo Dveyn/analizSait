@@ -26,11 +26,12 @@ export const acrualToken = async (token: string, token2: string) => {
 }
 /*
 
+
 CREATE TABLE IF NOT EXISTS public.user_token
 (
-    id integer NOT NULL,
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     user_id integer NOT NULL,
-    data_add date NOT NULL,
+    date_active date NOT NULL,
     token text COLLATE pg_catalog."default" NOT NULL,
     token2 text COLLATE pg_catalog."default" NOT NULL,
     is_active boolean NOT NULL DEFAULT true,
