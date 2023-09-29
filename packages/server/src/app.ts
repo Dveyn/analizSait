@@ -4,6 +4,8 @@ import { trainModel } from './model/trainModel'; // Импортируем фу�
 import { decodePredictions, predict } from './model/predict';
 import { signin } from './users/auth';
 import { signup } from './users/registretion';
+import { acrualToken } from './users/actualToken';
+import { IsAuth } from './users/is-auth';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -11,10 +13,17 @@ const PORT = process.env.PORT || 3001;
 app.use(bodyParser.json());
 
 // Разрешаем CORS, пока что со всех адресов и проверяем токены авторизации
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
+  const token = req.headers['token']?.toString();
+  const token2 = req.headers['token2']?.toString();
+
+  if (token && token2) {
+    const result = await acrualToken(token, token2);
+  }
 
   next();
 });
@@ -22,8 +31,8 @@ app.use((req, res, next) => {
 // Ручка для принятия данных и запуска обучения модели
 app.post('/train', async (req: Request, res: Response) => {
 
-  const token = req.headers['token'];
-  const token2 = req.headers['token2'];
+  const token = req.headers['token']?.toString();
+  const token2 = req.headers['token2']?.toString();
 
   if (!token || !token2) {
     return res.status(401).json({ isError: true, error: 'Unauthorized' });
@@ -35,10 +44,10 @@ app.post('/train', async (req: Request, res: Response) => {
   res.send(history);
 });
 
-app.post('/predict', async (req: Request, res: Response) => {
+app.post('api/predict', async (req: Request, res: Response) => {
 
-  const token = req.headers['token'];
-  const token2 = req.headers['token2'];
+  const token = req.headers['token']?.toString();
+  const token2 = req.headers['token2']?.toString();
 
   if (!token || !token2) {
     return res.status(401).json({ isError: true, error: 'Unauthorized' });
@@ -54,7 +63,7 @@ app.post('/predict', async (req: Request, res: Response) => {
 
 //Ручка авторизации 
 
-app.post('/signin', async (req: Request, res: Response) => {
+app.post('api/signin', async (req: Request, res: Response) => {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -63,18 +72,26 @@ app.post('/signin', async (req: Request, res: Response) => {
 });
 
 //Ручка регистрации
-app.post('/signup', async (req: Request, res: Response) => {
+app.post('api/signup', async (req: Request, res: Response) => {
   const email = req.body.email;
   const password = req.body.password;
   const username = req.body.name;
-  console.log(req.body);
-  
-console.log("APP ===========> ",email, password, username);
 
   const result = await signup(email, password, username);
   res.send(result);
+});
+app.get('/api/get', async (req: Request, res: Response) => {
+  const token = req.headers['token']?.toString();
+  const token2 = req.headers['token2']?.toString();;
+
+  if (!token || !token2) {
+    return res.status(401).json({ isError: true, error: 'Unauthorized' });
+  }
+  return await IsAuth(token, token2);
+
 });
 
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
 });
+

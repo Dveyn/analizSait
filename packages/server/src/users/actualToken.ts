@@ -24,3 +24,21 @@ export const acrualToken = async (token: string, token2: string) => {
   return { isError: true, message: "Время авторизации истекло" }
 
 }
+/*
+
+CREATE TABLE IF NOT EXISTS public.user_token
+(
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    data_add date NOT NULL,
+    token text COLLATE pg_catalog."default" NOT NULL,
+    token2 text COLLATE pg_catalog."default" NOT NULL,
+    is_active boolean NOT NULL DEFAULT true,
+    CONSTRAINT user_token_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.user_token
+    OWNER to postgres;
+ */

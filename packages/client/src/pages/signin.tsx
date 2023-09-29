@@ -31,7 +31,7 @@ export const Signin = () => {
           setCookie('token2', res.data.token2, 7);
           setEmail('')
           setPassword('')
-          router.push('/dashboard');
+        //  router.push('/dashboard');
         }
       }
     } catch (err) {
