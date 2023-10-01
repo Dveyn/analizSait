@@ -1,5 +1,5 @@
 	:root {
-		--background: black;
+		--background: #1a1919;
 		--color: white;
 		--brendColor: #4CAF50;
 		--transition: all 0.5s ease-in-out;
@@ -11,7 +11,7 @@
 		--color: black;
 	}
 	.dark {
-		--background: black;
+		--background: #1a1919;
 		--color: white;
 	}
 
@@ -22,7 +22,7 @@
 	}
 
 	body {
-		font-size: 18pt;
+		font-size: 16pt;
 		background: var(--background);
 		color: var(--color);
 		width: 100vw;
@@ -32,4 +32,7 @@
 		-moz-transition: all 0.5s ease;
 		-ms-transition: all 0.5s ease;
 		-o-transition: all 0.5s ease;
+}
+.main {
+	display: flex;
 }

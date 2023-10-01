@@ -1,0 +1,86 @@
+version: "3.9"
+
+services:
+  server:
+    container_name: ai-sait-server
+    image: ai-sait-server
+    build:
+      context: .
+      dockerfile: packages/server/Dockerfile.dev
+      args:
+        SERVER_PORT: ${SERVER_PORT}
+    depends_on:
+      - postgres
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+      - "24678:24678"
+    environment:
+      SERVER_PORT: ${SERVER_PORT}
+    restart: unless-stopped
+    networks:
+      - proj_network
+    volumes:
+      - .:/app:cached
+      - /app/node_modules
+      - /app/packages/client/node_modules
+      - /app/packages/server/node_modules
+
+  client:
+    container_name: ai-sait-client
+    image: ai-sait-client
+    build:
+      context: .
+      dockerfile: packages/client/Dockerfile.dev
+      args:
+        CLIENT_PORT: ${CLIENT_PORT}
+    ports:
+      - "${CLIENT_PORT}:${CLIENT_PORT}"
+    environment:
+      CLIENT_PORT: ${CLIENT_PORT}
+    restart: unless-stopped
+    networks:
+      - proj_network
+    volumes:
+      - .:/app:cached
+      - /app/node_modules
+      - /app/packages/client/node_modules
+      - /app/packages/server/node_modules
+
+  postgres:
+    container_name: ai-sait-postgres
+    image: postgres:16
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - proj_network
+    volumes:
+      - ./tmp/pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:4.18
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_PORT}
+    ports:
+      - "${PGADMIN_PORT}:8080"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - proj_network
+
+volumes:
+  pgadmin-data:
+
+networks:
+  proj_network:
+    driver: bridge

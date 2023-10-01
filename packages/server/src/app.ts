@@ -7,8 +7,10 @@ import { signup } from './users/registretion';
 import { acrualToken } from './users/actualToken';
 import { IsAuth } from './users/is-auth';
 import { getToken } from './utils/getCookies';
-
-
+import { AddSait } from './users/addSait';
+import { getUser } from './users/getUser';
+import { getSait } from './users/getSait';
+import { verefySait } from './users/verefiSait';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -22,11 +24,10 @@ app.use(async (req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   res.header('Access-Control-Allow-Credentials', 'true');
 
-  const token = req.headers['token']?.toString();
-  const token2 = req.headers['token2']?.toString(); 
+  const tokens = getToken(req.headers.cookie);
 
-  if (token && token2) {
-    const result = await acrualToken(token, token2);
+  if (tokens) {
+    const result = await acrualToken(tokens.token, tokens.token2);
   }
 
   next();
@@ -36,10 +37,8 @@ app.use(async (req, res, next) => {
 // Ручка для принятия данных и запуска обучения модели
 app.post('/train', async (req: Request, res: Response) => {
 
-  const token = req.headers['token']?.toString();
-  const token2 = req.headers['token2']?.toString();
-
-  if (!token || !token2) {
+  const tokens = getToken(req.headers.cookie);
+  if (!tokens) {
     return res.status(200).json({ isError: true, error: 'Unauthorized' });
   }
 
@@ -51,10 +50,8 @@ app.post('/train', async (req: Request, res: Response) => {
 
 app.post('/api/predict', async (req: Request, res: Response) => {
 
-  const token = req.headers['token']?.toString();
-  const token2 = req.headers['token2']?.toString();
-
-  if (!token || !token2) {
+  const tokens = getToken(req.headers.cookie);
+  if (!tokens) {
     return res.status(200).json({ isError: true, error: 'Unauthorized' });
   }
 
@@ -86,16 +83,49 @@ app.post('/api/signup', async (req: Request, res: Response) => {
   res.send(result);
 });
 app.get('/api/get', async (req: Request, res: Response) => {
-  const tokens = getToken(req.headers.cookie);  
+  const tokens = getToken(req.headers.cookie);
 
   if (!tokens) {
     return res.status(200).json({ isError: true, error: 'Unauthorized' });
   }
-  const result =  await IsAuth(tokens.token, tokens.token2);
+  const result = await IsAuth(tokens.token, tokens.token2);
   res.send(result);
 });
+
+app.post('/api/addSait', async (req, res) => {
+  const tokens = getToken(req.headers.cookie);
+  if (!tokens) {
+    return res.status(200).json({ isError: true, error: 'Unauthorized' });
+  }
+  const url = req.body.url;
+  const result = await AddSait(url);
+  res.send(result);
+
+});
+
+app.get('/api/getSait', async (req: Request, res: Response) => {
+  const tokens = getToken(req.headers.cookie);
+  if (!tokens) {
+    return res.status(200).json({ isError: true, error: 'Unauthorized' });
+  }
+  const userInfo = await getUser(tokens)
+  const result = await getSait(userInfo.id);
+  res.send(result);
+});
+
+
+app.post('/api/sendVerefySait', async (req: Request, res: Response) => {
+  const tokens = getToken(req.headers.cookie);
+  if (!tokens) {
+    return res.status(200).json({ isError: true, error: 'Unauthorized' });
+  }
+
+  const result = await verefySait(req.body.id);
+  res.send(result);
+})
 
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
 });
+
 

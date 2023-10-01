@@ -16,6 +16,9 @@ const link = {
   signin: 'api/signin',
   signup: 'api/signup',
   getAuth: 'api/get',
+  addSait: 'api/addSait',
+  getSait: 'api/getSait',
+  sendVerefySait: 'api/sendVerefySait',
 }
 
 export const appAPI = {
@@ -50,6 +53,27 @@ export const appAPI = {
   getAuth() {
     return instance
       .get(link.getAuth)
+      .then((response) => {
+        return response
+      })
+  },
+  addSait(url: string) {
+    return instance
+      .post(link.addSait, { url })
+      .then((response) => {
+        return response
+      })
+  },
+  getSait() {
+    return instance
+      .get(link.getSait)
+      .then((response) => {
+        return response
+      })
+  },
+  sendVerefySait(id: number) {
+    return instance
+      .post(link.sendVerefySait, { id })
       .then((response) => {
         return response
       })

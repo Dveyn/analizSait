@@ -1,0 +1,16 @@
+ARG NODE_VERSION=18
+ARG SERVER_PORT=3000
+
+FROM node:$NODE_VERSION-buster as base
+
+WORKDIR /app
+
+FROM base as builder
+
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+
+COPY . .
+
+EXPOSE $SERVER_PORT
+CMD [ "yarn", "dev:server" ]

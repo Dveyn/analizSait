@@ -3,7 +3,7 @@ import { Button, Card, Input, Link, Title, Error, Pretitle } from '@@/components
 import React, { useState } from 'react';
 import styles from '@@/styles/signin.module.css'
 import { setCookie } from '@@/unitls/cookies';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 
 export const Signin = () => {
@@ -41,7 +41,6 @@ export const Signin = () => {
   }
 
   return (
-
     <main>
       <Card customClass={styles.card}>
         <Title customClass={styles.title}>Optimastika</Title>
@@ -56,7 +55,6 @@ export const Signin = () => {
         <Link to={'/forget'}>Забыли пароль?</Link>
       </Card>
     </main>
-
   )
 }
 

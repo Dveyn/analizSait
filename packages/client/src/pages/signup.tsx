@@ -28,8 +28,7 @@ export const Signup = () => {
         if (res.data.isError) {
           setError(res.data.message)
         } else {
-          // setEmail('')
-          // setPassword('')
+          router.push('/signin')
         }
       }
     } catch (err) {
