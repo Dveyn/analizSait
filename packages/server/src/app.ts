@@ -11,6 +11,7 @@ import { AddSait } from './users/addSait';
 import { getUser } from './users/getUser';
 import { getSait } from './users/getSait';
 import { verefySait } from './users/verefiSait';
+import { getDataSait } from './sait/getDataSait';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -97,8 +98,9 @@ app.post('/api/addSait', async (req, res) => {
   if (!tokens) {
     return res.status(200).json({ isError: true, error: 'Unauthorized' });
   }
+  const user = await getUser(tokens);
   const url = req.body.url;
-  const result = await AddSait(url);
+  const result = await AddSait(url, user.id);
   res.send(result);
 
 });
@@ -123,6 +125,15 @@ app.post('/api/sendVerefySait', async (req: Request, res: Response) => {
   const result = await verefySait(req.body.id);
   res.send(result);
 })
+
+app.post('/api/getDataSait', async (req: Request, res: Response) => {
+  const tokens = getToken(req.headers.cookie);
+  if (!tokens) {
+    return res.status(200).json({ isError: true, error: 'Unauthorized' });
+  }
+  const result = await getDataSait(req.body.id);
+  res.send(result);
+});
 
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);

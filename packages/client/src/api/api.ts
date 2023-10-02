@@ -19,6 +19,7 @@ const link = {
   addSait: 'api/addSait',
   getSait: 'api/getSait',
   sendVerefySait: 'api/sendVerefySait',
+  getDataSait: 'api/getDataSait',
 }
 
 export const appAPI = {
@@ -75,6 +76,13 @@ export const appAPI = {
     return instance
       .post(link.sendVerefySait, { id })
       .then((response) => {
+        return response
+      })
+  },
+  getDataSait(id: number) {
+    return instance
+     .post(link.getDataSait, { id })
+     .then((response) => {
         return response
       })
   }
