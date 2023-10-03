@@ -4,6 +4,7 @@ import { getPage } from './getPage';
 import { getStatus } from './getStatus';
 import { getNotFount } from './getNotFound';
 import { validationHTML } from './validationHTML';
+import { speedTest } from './speedTest';
 
 
 export const seoAnalyz = async (id: number) => {
@@ -42,6 +43,7 @@ export const seoAnalyz = async (id: number) => {
   const openGraphTags = $('meta[property^="og"]').length;
   const status = await getStatus(url);
   const validation = await validationHTML(page)
+  const speed = await speedTest(url)
   return {
     isError: false,
     pageTitle,
@@ -52,6 +54,7 @@ export const seoAnalyz = async (id: number) => {
     openGraphTags,
     status,
     page404,
-    validation
+    validation,
+    speed
   };
 }

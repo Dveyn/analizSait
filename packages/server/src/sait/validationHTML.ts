@@ -7,6 +7,5 @@ export const validationHTML = async (pages: string) => {
   };
 
   const result = await validator(options)
-  console.log(result)
   return result
 }

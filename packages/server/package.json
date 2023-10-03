@@ -24,6 +24,7 @@
     "image-size": "^1.0.2",
     "knex": "^2.5.1",
     "lighthouse": "^11.1.0",
+    "psi": "^4.1.0",
     "seo-checker": "^0.3.2",
     "site-analyzer": "^0.1.0",
     "ts-node": "^10.9.1",
