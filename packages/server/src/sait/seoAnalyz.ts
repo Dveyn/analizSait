@@ -5,6 +5,7 @@ import { getStatus } from './getStatus';
 import { getNotFount } from './getNotFound';
 import { validationHTML } from './validationHTML';
 import { speedTest } from './speedTest';
+import { analuzText } from './analyzText';
 
 
 export const seoAnalyz = async (id: number) => {
@@ -43,18 +44,30 @@ export const seoAnalyz = async (id: number) => {
   const openGraphTags = $('meta[property^="og"]').length;
   const status = await getStatus(url);
   const validation = await validationHTML(page)
-  const speed = await speedTest(url)
+  const speed = await speedTest(url);
+  const analyzText = await analuzText(page);
+
+  const internalLinks = $('a').filter((index, element) => {
+    const href = $(element).attr('href');
+    return typeof href === 'string' && href.startsWith('/') && !href.startsWith('//');
+  });
+
+  const internalLinksCount = internalLinks.length;
+
   return {
     isError: false,
     pageTitle,
     metaKeywords,
     metaDescription,
     headings,
-    loadTime, 
+    loadTime,
     openGraphTags,
     status,
     page404,
     validation,
-    speed
+    speed,
+    url,
+    analyzText,
+    internalLinksCount
   };
 }

@@ -1,0 +1,22 @@
+.body {}
+
+.box {}
+
+.category {
+  font-size: 1.2em;
+}
+
+.item {
+  display: flex;
+  border-bottom: 1px outset var(--brendColor);
+  padding: 5px 10px;
+  margin: 5px 0;
+}
+
+.name {
+  width: 30%;
+}
+
+.value {
+  width: 70%;
+}
