@@ -6,14 +6,10 @@ export const analuzText = async (page: string) => {
    
     const $ = cheerio.load(page);
 
-    const textElements = $('p, span, div');
-    let totalTextLength = 0;
-
-    textElements.each((index, element) => {
-      totalTextLength += $(element).text().length;
-    });
-
-    const totalWords = totalTextLength > 0 ? page.split(/\s+/).length : 0;
+    const allText = $('body').text();
+    const totalTextLength = allText.length;
+    console.log(allText)
+    const totalWords = totalTextLength > 0 ? allText.split(/\s+/).length : 0;
     const keywordDensity = (totalWords > 0) ? (totalWords / 100) : 0; // Плотность ключевых слов
 
     const stopWords = ['и', 'в', 'на', 'не', 'что', 'с', 'по', 'как', 'а', 'к'];
@@ -27,7 +23,7 @@ export const analuzText = async (page: string) => {
     const stopWordsPercentage = (stopWordsCount / totalWords) * 100;
 
     return {
-      totalTextLength,
+      totalTextLength, 
       totalWords,
       keywordDensity,
       stopWordsCount,

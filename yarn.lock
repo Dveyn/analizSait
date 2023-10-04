@@ -2118,7 +2118,7 @@ core-util-is@~1.0.0:
   resolved "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.3.tgz"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
-cosmiconfig@^8.2.0:
+cosmiconfig@8.3.6, cosmiconfig@^8.2.0:
   version "8.3.6"
   resolved "https://registry.npmjs.org/cosmiconfig/-/cosmiconfig-8.3.6.tgz"
   integrity sha512-kcZ6+W5QzcJ3P1Mt+83OUv/oHFqZHIx8DuxG6eZ5RGMERoLqp4BuGjhHLYGK+Kf5XVkQvqBSmAy/nGWN3qDgEA==
@@ -6392,7 +6392,7 @@ pupa@^2.0.1:
   dependencies:
     escape-goat "^2.0.0"
 
-puppeteer-core@^21.1.1:
+puppeteer-core@21.3.6, puppeteer-core@^21.1.1:
   version "21.3.6"
   resolved "https://registry.npmjs.org/puppeteer-core/-/puppeteer-core-21.3.6.tgz"
   integrity sha512-ZH6tjTdRXwW2fx5W3jBbG+yUVQdDfZW1kjfwvWwMzsnKEli5ZwV70Zp97GOebHQHrK8zM3vX5VqI9sd48c9PnQ==
@@ -6403,6 +6403,15 @@ puppeteer-core@^21.1.1:
     debug "4.3.4"
     devtools-protocol "0.0.1179426"
     ws "8.14.2"
+
+puppeteer@^21.3.6:
+  version "21.3.6"
+  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-21.3.6.tgz#961a44cd532ab5344ed53d7714aa56b4602ace10"
+  integrity sha512-ulK9+KLvdaVsG0EKbKyw/DCXCz88rsnrvIJg9tY8AmkGR01AxI4ZJTH9BJl1OE7cLfh2vxjBvY+xfvJod6rfgw==
+  dependencies:
+    "@puppeteer/browsers" "1.7.1"
+    cosmiconfig "8.3.6"
+    puppeteer-core "21.3.6"
 
 qs@6.11.0, qs@^6.7.0:
   version "6.11.0"

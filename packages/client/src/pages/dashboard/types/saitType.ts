@@ -14,6 +14,13 @@ export type saitType = {
       textStatus: string
     }
   }
+  analyzText: {
+    keywordDensity: number
+    stopWordsCount: number
+    stopWordsPercentage: number
+    totalTextLength: number
+    totalWords: number
+  }
 
 }
 

@@ -31,7 +31,7 @@ const Dashboard = () => {
           saits.length == 0 ? <div>Нет сохраненных сайтов, перейдите <Link to={"/dashboard/add-sait"} >Добавить сайт</Link></div> :
          <div>
           {
-            saits.map((sait, index) => {
+          saits && saits.map((sait, index) => {
               return (
                <SaitCard key={index} sait={sait} />
               );

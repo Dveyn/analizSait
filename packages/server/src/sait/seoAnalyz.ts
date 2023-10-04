@@ -53,6 +53,18 @@ export const seoAnalyz = async (id: number) => {
   });
 
   const internalLinksCount = internalLinks.length;
+  const htmlSize = Buffer.from(page).length;
+  const faviconLink = $('link[rel="icon"]').attr('href') || $('link[rel="shortcut icon"]').attr('href');
+
+
+  const socialLinks = {
+    facebook: $('a[href*="facebook.com"]').attr('href'),
+    twitter: $('a[href*="twitter.com"]').attr('href'),
+    instagram: $('a[href*="instagram.com"]').attr('href'),
+    linkedin: $('a[href*="linkedin.com"]').attr('href'),
+    tenChat: $('a[href*="tenchat.ru"]').attr('href'),
+    vk: $('a[href*="vk.com"]').attr('href')
+  };
 
   return {
     isError: false,
@@ -68,6 +80,9 @@ export const seoAnalyz = async (id: number) => {
     speed,
     url,
     analyzText,
-    internalLinksCount
+    internalLinksCount,
+    htmlSize,
+    faviconLink,
+    socialLinks
   };
 }
