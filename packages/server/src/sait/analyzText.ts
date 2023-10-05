@@ -8,7 +8,7 @@ export const analuzText = async (page: string) => {
 
     const allText = $('body').text();
     const totalTextLength = allText.length;
-    console.log(allText)
+  
     const totalWords = totalTextLength > 0 ? allText.split(/\s+/).length : 0;
     const keywordDensity = (totalWords > 0) ? (totalWords / 100) : 0; // Плотность ключевых слов
 

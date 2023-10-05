@@ -6,6 +6,8 @@ import { getNotFount } from './getNotFound';
 import { validationHTML } from './validationHTML';
 import { speedTest } from './speedTest';
 import { analuzText } from './analyzText';
+import { getRobots } from './getRobots';
+import { getSitemap } from './getSaitmap';
 
 
 export const seoAnalyz = async (id: number) => {
@@ -66,6 +68,16 @@ export const seoAnalyz = async (id: number) => {
     vk: $('a[href*="vk.com"]').attr('href')
   };
 
+
+  let dissalow = false;
+
+  const robots = await getRobots(url);
+  if (robots.includes('Disallow: /')) {
+    dissalow = true;
+  } 
+
+  const sitemap = await getSitemap(url);
+
   return {
     isError: false,
     pageTitle,
@@ -83,6 +95,9 @@ export const seoAnalyz = async (id: number) => {
     internalLinksCount,
     htmlSize,
     faviconLink,
-    socialLinks
+    socialLinks,
+    robots,
+    dissalow,
+    sitemap
   };
 }

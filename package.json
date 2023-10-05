@@ -7,8 +7,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "dev": "concurrently \"cd packages/server && yarn dev\" \"cd packages/client && yarn dev\"",
-    "dev:server":  "concurrently \"cd packages/server && yarn dev\"",
-    "dev:client":  "concurrently \"cd packages/client && yarn dev\"",
+    "dev:server": "concurrently \"cd packages/server && yarn dev\"",
+    "dev:client": "concurrently \"cd packages/client && yarn dev\"",
     "start": "concurrently \"npm run deb:server\" \"npm run deb:client\"",
     "build": "lerna run build"
   },
@@ -18,6 +18,7 @@
     "pg": "^8.11.3"
   },
   "devDependencies": {
+    "@types/google-translate-api": "^2.3.3",
     "lerna": "^7.1.5"
   }
 }
