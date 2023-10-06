@@ -20,8 +20,15 @@ export type saitType = {
     stopWordsPercentage: number
     totalTextLength: number
     totalWords: number
+  },
+  robots: string, 
+  dissalow: boolean,
+  sitemap: string
+  page404: {
+    links: boolean,
+    status: number,
+    textStatus: string
   }
-
 }
 
 type headingsType = {

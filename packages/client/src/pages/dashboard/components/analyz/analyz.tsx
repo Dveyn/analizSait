@@ -63,6 +63,31 @@ export const Analyz = ({ sait }: Props) => {
             <div>https://{removeProtocol(sait.url)} - status: {sait.status.https.status} {sait.status.https.textStatus}  </div>
           </div>
         </div>
+        <div className={style.item}>
+          <div className={style.name}>Файл robots</div>
+          <div className={style.value}>
+            <div>Файл robots.txt {sait.robots? 'Найден' : 'Не найден'} </div>
+            <div>{sait.robots? sait.dissalow? 'Индексация запрещена!' : 'Индексация разрешена' : ''} </div>
+          </div>
+        </div>
+        <div className={style.item}>
+          <div className={style.name}>Файл sitemap</div>
+          <div className={style.value}>
+            <div>Файл sitemap {sait.sitemap? 'Найден' : 'Не найден'} </div>
+          </div>
+        </div>
+        <div className={style.item}>
+          <div className={style.name}>Страница 404</div>
+          <div className={style.value}>
+            <div>Код ответа: {sait.page404.status} {sait.page404.textStatus} </div>
+          </div>
+        </div>
+        <div className={style.item}>
+          <div className={style.name}>Ссылка на странице 404</div>
+          <div className={style.value}>
+            {sait.page404.links? "Присутствует":"Отсутствует"}
+          </div>
+        </div>
       </div>
     </div>
   )
