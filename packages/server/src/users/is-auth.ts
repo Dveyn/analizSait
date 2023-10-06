@@ -25,7 +25,7 @@ export const IsAuth = async (token: string, token2: string) => {
 
   }
 
-  return { isError: false, message: "Время авторизации истекло" }
+  return { isError: true, message: "Время авторизации истекло" }
 
 };
 

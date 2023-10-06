@@ -22,7 +22,8 @@ export const analuzText = async (url: string) => {
     const $ = cheerio.load(content);
 
     const allText = $('body').text();
-    const totalTextLength = allText.length;
+    const wordsArray = allText.split(/\s+/).filter(Boolean);
+    const totalTextLength = wordsArray.join('').length;
   
     const totalWords = totalTextLength > 0 ? allText.split(/\s+/).length : 0;
 

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { translateText } from '../utils/translate';
 
 export const validationHTML = async (html: string) => {
   try {
@@ -19,9 +18,6 @@ export const validationHTML = async (html: string) => {
  
     const translatedMessages: errorMessage[] = await Promise.all(
       response.data.messages.map(async (el: errorMessage) => {
-        const errorMessage = await translateText(el.message);
-        el.message = errorMessage;
-        console.log(el);
         return el;
       })
     );

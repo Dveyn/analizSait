@@ -31,15 +31,11 @@ export const Analyz = ({ sait }: Props) => {
         </div>
         <div className={style.item}>
           <div className={style.name}>Длина текста</div>
-          <div className={style.value}>{sait.analyzText.totalTextLength} </div>
+          <div className={style.value}>{sait.analyzText.totalTextLength   } </div>
         </div>
         <div className={style.item}>
           <div className={style.name}>Кол-во слов</div>
           <div className={style.value}>{sait.analyzText.totalWords} </div>
-        </div>
-        <div className={style.item}>
-          <div className={style.name}>Плотность ключевых слов</div>
-          <div className={style.value}>{sait.analyzText.keywordDensity} </div>
         </div>
         <div className={style.item}>
           <div className={style.name}>Стоп слов</div>

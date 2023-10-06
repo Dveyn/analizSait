@@ -1,6 +1,7 @@
 import { appAPI } from "@@/api/api";
 import React, { ReactNode, useEffect } from "react";
 import { useRouter } from 'next/router';
+import { deleteCookie } from "@@/unitls/cookies";
 
 
 type Props = { children: ReactNode  }
@@ -13,7 +14,9 @@ export const AuthWrapper = ({children}:Props) => {
       const result = await appAPI.getAuth();
 
       if (result.data.isError && router.asPath.includes("dashboard")) {
-       // router.push('/signin');
+        router.push('/signin');
+        deleteCookie('token');
+        deleteCookie('token2');
       }
     }
 
