@@ -24,6 +24,7 @@
     "image-size": "^1.0.2",
     "knex": "^2.5.1",
     "lighthouse": "^11.1.0",
+    "natural": "^6.7.2",
     "psi": "^4.1.0",
     "puppeteer": "^21.3.6",
     "seo-checker": "^0.3.2",

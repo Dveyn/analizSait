@@ -45,7 +45,7 @@ export const seoAnalyz = async (id: number) => {
   const status = await getStatus(url);
   const validation = await validationHTML(page)
   const speed = await speedTest(url);
-  const analyzText = await analuzText(page);
+  const analyzText = await analuzText(url);
 
   const internalLinks = $('a').filter((index, element) => {
     const href = $(element).attr('href');
