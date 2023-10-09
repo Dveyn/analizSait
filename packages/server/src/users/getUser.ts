@@ -9,6 +9,8 @@ export const getUser = async (tokens:getUserProps) => {
   const token2 = tokens.token2;
   
   const result = await pool.query("SELECT * FROM user_token WHERE token = $1 AND token2 = $2", [token, token2]);
+  console.log(result);
+  
   const userQuery = await pool.query("SELECT * FROM users WHERE id = $1", [result.rows[0].user_id]);
   
   if (userQuery.rowCount && userQuery.rows[0]) {

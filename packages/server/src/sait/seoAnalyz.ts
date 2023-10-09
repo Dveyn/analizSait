@@ -8,20 +8,18 @@ import { speedTest } from './speedTest';
 import { analuzText } from './analyzText';
 import { getRobots } from './getRobots';
 import { getSitemap } from './getSaitmap';
+import { speedLoad } from './speedLoad';
 
 
 export const seoAnalyz = async (id: number) => {
   //TODO: Нужно так же по user_id проверять
-  const saitQ = await pool.query("SELECT * FROM user_sait WHERE id = $1", [id]);
+  const saitQ = await pool.query("SELECT * FROM sait_page WHERE id = $1", [id]);
 
   if (saitQ.rowCount === 0) {
     return { isError: true, message: "Сайт не найден" }
   }
 
   const sait = saitQ.rows[0];
-  if (!sait.is_verefy) {
-    return { isError: true, message: "Сайт не подтвержден" }
-  }
 
   const url = sait.url;
   const page = await getPage(`${url}`);
@@ -78,6 +76,8 @@ export const seoAnalyz = async (id: number) => {
 
   const sitemap = await getSitemap(url);
 
+  const speeds = await speedLoad(url)
+
   return {
     isError: false,
     pageTitle,
@@ -89,7 +89,6 @@ export const seoAnalyz = async (id: number) => {
     status,
     page404,
     validation,
-    speed,
     url,
     analyzText,
     internalLinksCount,
@@ -98,6 +97,7 @@ export const seoAnalyz = async (id: number) => {
     socialLinks,
     robots,
     dissalow,
-    sitemap
+    sitemap,
+    speeds
   };
 }

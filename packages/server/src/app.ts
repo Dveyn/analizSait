@@ -12,6 +12,7 @@ import { getUser } from './users/getUser';
 import { getSait } from './users/getSait';
 import { verefySait } from './users/verefiSait';
 import { getDataSait } from './sait/getDataSait';
+import { demonAnalyz } from './sait/demonAnalyz';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -132,6 +133,11 @@ app.post('/api/getDataSait', async (req: Request, res: Response) => {
     return res.status(200).json({ isError: true, error: 'Unauthorized' });
   }
   const result = await getDataSait(req.body.id);
+  res.send(result);
+});
+
+app.get('/api/startDemon', async (req: Request, res: Response) => {
+  const result = await demonAnalyz();
   res.send(result);
 });
 
