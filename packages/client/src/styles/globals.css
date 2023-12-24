@@ -1,38 +1,12 @@
-	:root {
-		--background: #1a1919;
-		--color: white;
-		--brendColor: #4CAF50;
-		--transition: all 0.5s ease-in-out;
-		--color-error-text: red
-	}
-
-	.lite {
-		--background: white;
-		--color: black;
-	}
-	.dark {
-		--background: #1a1919;
-		--color: white;
-	}
-
-	* {
-		padding: 0;
-		margin: 0;
-		box-sizing: border-box;
-	}
-
-	body {
-		font-size: 16pt;
-		background: var(--background);
-		color: var(--color);
-		width: 100vw;
-		min-height: 100vh;
-		transition: all 0.5s ease;
-		-webkit-transition: all 0.5s ease;
-		-moz-transition: all 0.5s ease;
-		-ms-transition: all 0.5s ease;
-		-o-transition: all 0.5s ease;
+:root {
+  --background: #38B2AC;
+  --sectionBacground: #FFFFFF;
+  --color: #2D3748;
+  --border: #2D3748;
+  --borderActive: #38B2AC;
 }
-.main {
-	display: flex;
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
 }

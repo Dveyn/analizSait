@@ -8,4 +8,14 @@ const connection = mysql.createConnection({
   database: process.env.DB_DATABASE,
 });
 
+// Установка соединения с базой данных
+connection.connect((err: { stack: string; }) => {
+  if (err) {
+    console.error('Ошибка подключения к базе данных: ' + err.stack);
+    return;
+  }
+  console.log('Успешное подключение к базе данных');
+});
+
+
 export default connection;
