@@ -1,0 +1,10 @@
+.card {
+  padding: 10px;
+  background-color: var(--sectionBacground);
+  box-shadow: 0 0 6px 0 #ffffff6e;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+}

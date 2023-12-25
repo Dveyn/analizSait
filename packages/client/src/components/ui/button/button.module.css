@@ -1,0 +1,16 @@
+.btn {
+  background-color: var(--background);
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: scale 0.5s linear;
+  -webkit-transition: scale 0.5s linear;
+  -moz-transition: scale 0.5s linear;
+  -ms-transition: scale 0.5s linear;
+  -o-transition: scale 0.5s linear;
+}
+.btn:hover {
+  scale: 1.1 ;
+}
