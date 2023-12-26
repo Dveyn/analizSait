@@ -4,7 +4,7 @@ export type signinType ={
 }
 
 export type signupType = {
-  name: string,
   email: string,
   password: string,
+  passwordSeconds: string,
 }

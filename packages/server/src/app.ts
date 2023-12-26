@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-
+import {Signup} from './users/signup'
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -36,14 +36,14 @@ app.use(async (req, res, next) => {
 // });
 
 //Ручка регистрации
-// app.post('/api/signup', async (req: Request, res: Response) => {
-//   const email = req.body.email;
-//   const password = req.body.password;
-//   const username = req.body.name;
+app.post('/api/signup', async (req: Request, res: Response) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const passwordSecond = req.body.name;
 
-//   const result = await signup(email, password, username);
-//   res.send(result);
-// });
+  const result = await Signup(email, password, passwordSecond);
+  res.send(result);
+});
 
 // app.get('/api/get', async (req: Request, res: Response) => {
 //   const tokens = getToken(req.headers.cookie);
