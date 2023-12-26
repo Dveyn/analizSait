@@ -11,14 +11,30 @@ const instance = axios.create({
 })
 
 const link = {
-  signup: 'signup'
-  
+  signup: 'signup',
+  signin: 'signin',
+  getAuth: 'get',
+
 }
 
 export const appAPI = {
   signup(data: signupType) {
     return instance
       .post(link.signup, data)
+      .then((response) => {
+        return response
+      })
+  },
+  signin(data: signinType) {
+    return instance
+      .post(link.signin, data)
+      .then((response) => {
+        return response
+      })
+  },
+  getAuth() {
+    return instance
+      .get(link.getAuth)
       .then((response) => {
         return response
       })

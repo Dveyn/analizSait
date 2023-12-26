@@ -29,6 +29,6 @@ export const Signup = async (email: string, password: string, passwordSecond: st
     return { isError: false, message: 'Пользователь успешно зарегистрирован' };
   } catch (error) {
     console.error('Ошибка регистрации пользователя: ' + error);
-    return { isError: true, message: 'Ошибка сервера' };
+    return { isError: true, message: 'Ошибка сервера' }; 
   }
 };

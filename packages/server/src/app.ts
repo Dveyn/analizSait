@@ -1,6 +1,9 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import {Signup} from './users/signup'
+import { Signup } from './users/signup'
+import { Signin } from './users/signin';
+import { getToken } from './utils/getToken';
+import { checkTokenValidity } from './utils/checkTokenValidity';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -27,13 +30,13 @@ app.use(async (req, res, next) => {
 
 //Ручка авторизации 
 
-// app.post('/api/signin', async (req: Request, res: Response) => {
-//   const email = req.body.email;
-//   const password = req.body.password;
+app.post('/signin', async (req: Request, res: Response) => {
+  const email = req.body.email;
+  const password = req.body.password;
 
-//   const result = await signin(email, password);
-//   res.send(result);
-// });
+  const result = await Signin(email, password);
+  res.send(result);
+});
 
 //Ручка регистрации
 app.post('/signup', async (req: Request, res: Response) => {
@@ -45,15 +48,15 @@ app.post('/signup', async (req: Request, res: Response) => {
   res.send(result);
 });
 
-// app.get('/api/get', async (req: Request, res: Response) => {
-//   const tokens = getToken(req.headers.cookie);
+app.get('/get', async (req: Request, res: Response) => {
+  const tokens = getToken(req.headers.cookie);
 
-//   if (!tokens) {
-//     return res.status(200).json({ isError: true, error: 'Unauthorized' });
-//   }
-//   const result = await IsAuth(tokens.token, tokens.token2);
-//   res.send(result);
-// });
+  if (!tokens) {
+    return res.status(200).json({ isError: true, error: 'Unauthorized' });
+  }
+  const result = await checkTokenValidity(tokens.token, tokens.token2);
+  res.send(result);
+});
 
 
 app.listen(PORT, () => {
