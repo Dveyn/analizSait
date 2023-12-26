@@ -36,7 +36,7 @@ app.use(async (req, res, next) => {
 // });
 
 //Ручка регистрации
-app.post('/api/signup', async (req: Request, res: Response) => {
+app.post('/signup', async (req: Request, res: Response) => {
   const email = req.body.email;
   const password = req.body.password;
   const passwordSecond = req.body.name;

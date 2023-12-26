@@ -11,9 +11,16 @@ const instance = axios.create({
 })
 
 const link = {
+  signup: 'signup'
   
 }
 
 export const appAPI = {
- 
+  signup(data: signupType) {
+    return instance
+      .post(link.signup, data)
+      .then((response) => {
+        return response
+      })
+  },
 }
