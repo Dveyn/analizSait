@@ -17,10 +17,12 @@ export const AuthWrapper = ({children}:Props) => {
         router.push('/signin');
         deleteCookie('token');
         deleteCookie('token2');
+      } else if (router.asPath.includes("signup") || router.asPath.includes("signin")) {
+        router.push('/');
       }
     }
 
     getAuth();
-  }, [])
+  }, [router])
   return <>{children}</>;
 };
