@@ -1,5 +1,5 @@
 node_modules/
 packages/client/dist
 packages/server/dist
-.evn
+packages/server/.env
 
