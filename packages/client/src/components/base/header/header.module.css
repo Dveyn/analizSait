@@ -47,7 +47,7 @@
   left: 0;
   right: 0;
   top: 100%;
-  height: 3px;
+  height: 1px;
   background: linear-gradient(135deg, #127470, #BF9E5D);
   transform: scaleX(var(--scale));
   transform-origin: var(--x) 50%;
